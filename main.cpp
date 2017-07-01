@@ -553,7 +553,7 @@ void paintGL() {
 
                 // ボールの色を変化させる
                 for(int i=0; i<start_pos.size(); i++){
-                    int ball_color_index = i / 10;
+                    int ball_color_index = i / 7;
                     bowling_balls[ball_color_index].modelMat = glm::translate(ballPos[i]) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(phi[i][0], glm::vec3(phi[i][1], phi[i][2], phi[i][3]));
                     bowling_balls[ball_color_index].draw(camera2);
                 }
