@@ -650,21 +650,21 @@ void keyboard(GLFWwindow *window) {
     int state;
     
     if (gameMode == GAME_MODE_PLAY) {
-        // 左
+        // left
         state = glfwGetKey(window, GLFW_KEY_LEFT);
         if (state == GLFW_PRESS || state == GLFW_REPEAT) {
             arrow_angle += arrow_angle_v;
             arrow_angle = std::min(arrow_angle, +1.5f);
         }
         
-        // 右
+        // right
         state = glfwGetKey(window, GLFW_KEY_RIGHT);
         if (state == GLFW_PRESS || state == GLFW_REPEAT) {
             arrow_angle -= arrow_angle_v;
             arrow_angle = std::max(arrow_angle, -1.5f);
         }
         
-        // 上
+        // up
         state = glfwGetKey(window, GLFW_KEY_UP);
         if (state == GLFW_PRESS) {
             arrow_color += 0.2f;
@@ -674,7 +674,7 @@ void keyboard(GLFWwindow *window) {
             init_arrow(arrow_color_index);
         }
         
-        // 下
+        // down
         state = glfwGetKey(window, GLFW_KEY_DOWN);
         if (state == GLFW_PRESS) {
             arrow_color -= 0.2f;
