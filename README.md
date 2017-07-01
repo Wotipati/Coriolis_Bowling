@@ -3,7 +3,7 @@
 You can study Coriolis force !!!!
 
 How to play  
-    Enter key : throw ball  
+  Enter key : throw ball  
     Space key : change view (first person view / bird view)  
     Left/Right key : change　direction  
     Up/Down key : change speed ( Red(faster) to navy blue(slower) )  
