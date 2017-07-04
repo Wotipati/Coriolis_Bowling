@@ -1,6 +1,6 @@
 # Coriolis_Bowling
 
-You can study Coriolis force !!!!
+You can study Coriolis force !!!
 
 How to play  
 
