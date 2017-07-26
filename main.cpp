@@ -38,25 +38,25 @@ static const std::string START_OBJFILE       = std::string(DATA_DIRECTORY) + "sq
 static const std::string START_TEXFILE       = std::string(DATA_DIRECTORY) + "start.png";
 
 // 背景用のファイル
-static const std::string Back_OBJFILE        = std::string(DATA_DIRECTORY) + "square.obj";
-static const std::string Back_TEXFILE        = std::string(DATA_DIRECTORY) + "space.png";
+static const std::string BACK_OBJFILE        = std::string(DATA_DIRECTORY) + "square.obj";
+static const std::string BACK_TEXFILE        = std::string(DATA_DIRECTORY) + "space.png";
 
 // ボーリングのピンのファイル
-static const std::string BowlingPin_OBJFILE  = std::string(DATA_DIRECTORY) + "bowling_pin/bowling.obj";
-static const std::string BowlingPin1_TEXFILE = std::string(DATA_DIRECTORY) + "bowling_pin/bowling_pin.png";
-static const std::string BowlingPin2_TEXFILE = std::string(DATA_DIRECTORY) + "bowling_pin/bowling_pin2.png";
+static const std::string BOWLINGPIN_OBJFILE  = std::string(DATA_DIRECTORY) + "bowling_pin/bowling.obj";
+static const std::string BOWLINGPIN1_TEXFILE = std::string(DATA_DIRECTORY) + "bowling_pin/bowling_pin.png";
+static const std::string BOWLINGPIN2_TEXFILE = std::string(DATA_DIRECTORY) + "bowling_pin/bowling_pin2.png";
 
 // 投げる人間のファイル
-static const std::string Person_OBJFILE      = std::string(DATA_DIRECTORY) + "stickman.OBJ";
-static const std::string Person_TEXFILE      = std::string(DATA_DIRECTORY) + "color6.png";
+static const std::string PERSON_OBJFILE      = std::string(DATA_DIRECTORY) + "stickman.OBJ";
+static const std::string PERSON_TEXFILE      = std::string(DATA_DIRECTORY) + "color6.png";
 
 // 円盤のファイル
-static const std::string cylinder_OBJFILE    = std::string(DATA_DIRECTORY) + "cylinder_thin.obj";
-static const std::string cylinder_TEXFILE    = std::string(DATA_DIRECTORY) + "cylinder_thin.png";
+static const std::string CYLINDER_OBJFILE    = std::string(DATA_DIRECTORY) + "cylinder_thin.obj";
+static const std::string CYLINDER_TEXFILE    = std::string(DATA_DIRECTORY) + "cylinder_thin.png";
 
 // ボーリングのボールのファイル
-static const std::string BowlingBall_OBJFILE = std::string(DATA_DIRECTORY) + "Bowling_ball/Bowling_ball.obj";
-static const std::vector<std::string> BowlingBall_TEXFILES = { std::string(DATA_DIRECTORY) + "color0.png",
+static const std::string BOWLINGBALL_OBJFILE = std::string(DATA_DIRECTORY) + "Bowling_ball/Bowling_ball.obj";
+static const std::vector<std::string> BOWLINGBALL_TEXFILES = { std::string(DATA_DIRECTORY) + "color0.png",
                                                                std::string(DATA_DIRECTORY) + "color1.png",
                                                                std::string(DATA_DIRECTORY) + "color2.png",
                                                                std::string(DATA_DIRECTORY) + "color3.png",
@@ -68,8 +68,8 @@ static const std::vector<std::string> BowlingBall_TEXFILES = { std::string(DATA_
                                                                std::string(DATA_DIRECTORY) + "color9.png" };
 
 // 矢印のファイル
-static const std::string Arrow_OBJFILE = std::string(DATA_DIRECTORY) + "arrow/arrow.obj";
-static const std::vector<std::string> Arrow_TEXFILES = { std::string(DATA_DIRECTORY) + "color0.png",
+static const std::string ARROW_OBJFILE = std::string(DATA_DIRECTORY) + "arrow/arrow.obj";
+static const std::vector<std::string> ARROW_TEXFILES = { std::string(DATA_DIRECTORY) + "color0.png",
                                                          std::string(DATA_DIRECTORY) + "color1.png",
                                                          std::string(DATA_DIRECTORY) + "color2.png",
                                                          std::string(DATA_DIRECTORY) + "color3.png",
@@ -387,28 +387,28 @@ struct RenderObject {
 RenderObject startDisp;
 RenderObject background;
 RenderObject cylinder;
-RenderObject bowling_pin1;
-RenderObject bowling_pin2;
-RenderObject bowling_balls[10];
+RenderObject bowlingPin1;
+RenderObject bowlingPin2;
+RenderObject bowlingBalls[10];
 RenderObject person;
 RenderObject arrow;
 
 Camera camera1;
 Camera camera2;
 
-std::vector<float> ball_run;
-std::vector<float> ball_vy;
-std::vector<float> ball_pos_y;
+std::vector<float> ballRun;
+std::vector<float> ballSpeedY;
+std::vector<float> ballPosY;
 std::deque<glm::vec3> ballPos;
-std::deque<glm::vec3> start_pos;
-std::deque<glm::vec3> goal_pos;
+std::deque<glm::vec3> startPos;
+std::deque<glm::vec3> goalPos;
 std::deque<glm::vec4> phi;
 
-float arrow_angle = 0.0f;
-float arrow_angle_v = 0.015f;
-float arrow_color = 5.0f;
-float ball_angle;
-float ball_v[10] = {0.0005f, 0.001f, 0.0015f, 0.002f, 0.003f, 0.006f, 0.015f, 0.03f, 0.065f, 0.1f};
+float arrowAngle = 0.0f;
+float arrowAngleSpeed = 0.015f;
+float arrowColor = 5.0f;
+float ballAngle;
+float ballSpeed[10] = {0.0005f, 0.001f, 0.0015f, 0.002f, 0.003f, 0.006f, 0.015f, 0.03f, 0.065f, 0.1f};
 float g = 0.0005f;
 
 bool throwing = false;
@@ -421,15 +421,14 @@ enum {
 };
 
 enum {
-    First_Person,
-    Bird_Eye,
+    FIRST_PERSON,
+    BIRD_EYE,
 };
 
 int gameMode = GAME_MODE_START;
-int cameraMode = First_Person;
+int cameraMode = FIRST_PERSON;
 int modeselect = -1;
-int arrow_color_index = 5;
-int ball_number;
+int arrowColorIndex = 5;
 
 
 void initializeGL() {
@@ -444,45 +443,45 @@ void initializeGL() {
     startDisp.loadTexture(START_TEXFILE);
     
     background.initialize();
-    background.loadOBJ(Back_OBJFILE);
+    background.loadOBJ(BACK_OBJFILE);
     background.buildShader(TEXTURE_SHADER);
-    background.loadTexture(Back_TEXFILE);
+    background.loadTexture(BACK_TEXFILE);
     
     cylinder.initialize();
-    cylinder.loadOBJ(cylinder_OBJFILE);
+    cylinder.loadOBJ(CYLINDER_OBJFILE);
     cylinder.buildShader(RENDER_SHADER);
-    cylinder.loadTexture(cylinder_TEXFILE);
+    cylinder.loadTexture(CYLINDER_TEXFILE);
     cylinder.modelMat = glm::translate(glm::vec3(0.0f, 0.0f, 0.0f));
     
-    bowling_pin1.initialize();
-    bowling_pin1.loadOBJ(BowlingPin_OBJFILE);
-    bowling_pin1.buildShader(RENDER_SHADER);
-    bowling_pin1.loadTexture(BowlingPin1_TEXFILE);
-    bowling_pin1.modelMat = glm::translate(glm::vec3(0.0f, 0.1f, -0.9f)) * glm::scale(glm::vec3(0.015f, 0.015f, 0.015f));
+    bowlingPin1.initialize();
+    bowlingPin1.loadOBJ(BOWLINGPIN_OBJFILE);
+    bowlingPin1.buildShader(RENDER_SHADER);
+    bowlingPin1.loadTexture(BOWLINGPIN1_TEXFILE);
+    bowlingPin1.modelMat = glm::translate(glm::vec3(0.0f, 0.1f, -0.9f)) * glm::scale(glm::vec3(0.015f, 0.015f, 0.015f));
     
-    bowling_pin2.initialize();
-    bowling_pin2.loadOBJ(BowlingPin_OBJFILE);
-    bowling_pin2.buildShader(RENDER_SHADER);
-    bowling_pin2.loadTexture(BowlingPin2_TEXFILE);
-    bowling_pin2.modelMat = glm::translate(glm::vec3(0.0f, 0.1f, -0.9f)) * glm::scale(glm::vec3(0.015f, 0.015f, 0.015f));
+    bowlingPin2.initialize();
+    bowlingPin2.loadOBJ(BOWLINGPIN_OBJFILE);
+    bowlingPin2.buildShader(RENDER_SHADER);
+    bowlingPin2.loadTexture(BOWLINGPIN2_TEXFILE);
+    bowlingPin2.modelMat = glm::translate(glm::vec3(0.0f, 0.1f, -0.9f)) * glm::scale(glm::vec3(0.015f, 0.015f, 0.015f));
     
     for (int i=0; i<10; i++){
-        bowling_balls[i].initialize();
-        bowling_balls[i].loadOBJ(BowlingBall_OBJFILE);
-        bowling_balls[i].buildShader(RENDER_SHADER);
-        bowling_balls[i].loadTexture(BowlingBall_TEXFILES[i]);
-        bowling_balls[i].modelMat = glm::translate(glm::vec3(0.0f, 0.15f, 0.75f)) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f));
+        bowlingBalls[i].initialize();
+        bowlingBalls[i].loadOBJ(BOWLINGBALL_OBJFILE);
+        bowlingBalls[i].buildShader(RENDER_SHADER);
+        bowlingBalls[i].loadTexture(BOWLINGBALL_TEXFILES[i]);
+        bowlingBalls[i].modelMat = glm::translate(glm::vec3(0.0f, 0.15f, 0.75f)) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f));
     }
     
-    person.loadOBJ(Person_OBJFILE);
+    person.loadOBJ(PERSON_OBJFILE);
     person.buildShader(RENDER_SHADER);
-    person.loadTexture(Person_TEXFILE);
+    person.loadTexture(PERSON_TEXFILE);
     person.modelMat = glm::translate(glm::vec3(0.0f, 0.2f, 0.93f)) * glm::scale(glm::vec3(0.002f, 0.002f, 0.002f));
     
     arrow.initialize();
-    arrow.loadOBJ(Arrow_OBJFILE);
+    arrow.loadOBJ(ARROW_OBJFILE);
     arrow.buildShader(RENDER_SHADER);
-    arrow.loadTexture(Arrow_TEXFILES[5]);
+    arrow.loadTexture(ARROW_TEXFILES[5]);
     arrow.modelMat = glm::translate(glm::vec3(0.0f, 0.1f, 0.90f)) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f));
     
     camera1.projMat = glm::perspective(45.0f, (float)WIN_WIDTH / (float)WIN_HEIGHT, 0.1f, 1000.0f);
@@ -521,17 +520,17 @@ void paintGL() {
                 
                 // ボールがピンに当たったら赤くする
                 if(hit==false){
-                    bowling_pin1.draw(camera1);
+                    bowlingPin1.draw(camera1);
                 }
                 else{
-                    bowling_pin2.draw(camera1);
+                    bowlingPin2.draw(camera1);
                 }
                 
                 // ボールの色を変化させる
-                for(int i=0; i<start_pos.size(); i++){
-                    int ball_color_index = i / 7 ;
-                    bowling_balls[ball_color_index].modelMat = glm::translate(ballPos[i]) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f))* glm::rotate(phi[i][0], glm::vec3(phi[i][1], phi[i][2], phi[i][3]));
-                    bowling_balls[ball_color_index].draw(camera1);
+                for(int i=0; i<startPos.size(); i++){
+                    int ballColorIndex = i / 7 ;
+                    bowlingBalls[ballColorIndex].modelMat = glm::translate(ballPos[i]) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f))* glm::rotate(phi[i][0], glm::vec3(phi[i][1], phi[i][2], phi[i][3]));
+                    bowlingBalls[ballColorIndex].draw(camera1);
                 }
             }
             else{
@@ -545,17 +544,17 @@ void paintGL() {
                 
                 // ボールがピンに当たったら赤くする
                 if(hit==false){
-                    bowling_pin1.draw(camera2);
+                    bowlingPin1.draw(camera2);
                 }
                 else{
-                    bowling_pin2.draw(camera2);
+                    bowlingPin2.draw(camera2);
                 }
 
                 // ボールの色を変化させる
-                for(int i=0; i<start_pos.size(); i++){
-                    int ball_color_index = i / 7;
-                    bowling_balls[ball_color_index].modelMat = glm::translate(ballPos[i]) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(phi[i][0], glm::vec3(phi[i][1], phi[i][2], phi[i][3]));
-                    bowling_balls[ball_color_index].draw(camera2);
+                for(int i=0; i<startPos.size(); i++){
+                    int ballColorIndex = i / 7;
+                    bowlingBalls[ballColorIndex].modelMat = glm::translate(ballPos[i]) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(phi[i][0], glm::vec3(phi[i][1], phi[i][2], phi[i][3]));
+                    bowlingBalls[ballColorIndex].draw(camera2);
                 }
             }
         }
@@ -586,41 +585,41 @@ void animate() {
         theta += 2.0f * PI / 360.0f;  // 10分の1回転
         camera1.viewMat = glm::lookAt(glm::vec3(1.45*sin(theta), 1.0f, 1.45*cos(theta)), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         
-        bowling_pin1.modelMat = glm::translate(glm::vec3(-0.9*sin(theta), 0.1f, -0.9*cos(theta))) * glm::scale(glm::vec3(0.015, 0.015, 0.015));
-        bowling_pin2.modelMat = glm::translate(glm::vec3(-0.9*sin(theta), 0.1f, -0.9*cos(theta))) * glm::scale(glm::vec3(0.015, 0.015, 0.015));
+        bowlingPin1.modelMat = glm::translate(glm::vec3(-0.9*sin(theta), 0.1f, -0.9*cos(theta))) * glm::scale(glm::vec3(0.015, 0.015, 0.015));
+        bowlingPin2.modelMat = glm::translate(glm::vec3(-0.9*sin(theta), 0.1f, -0.9*cos(theta))) * glm::scale(glm::vec3(0.015, 0.015, 0.015));
         
         cylinder.modelMat = glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f));
         
         person.modelMat =  glm::translate(glm::vec3(0.93*sin(theta+0.07) , 0.2f, 0.93*cos(theta+0.07))) * glm::scale(glm::vec3(0.003f, 0.003f, 0.003f)) * glm::rotate(theta+PI, glm::vec3(0.0f, 1.0f, 0.0f));
         
-        arrow.modelMat =  glm::translate(glm::vec3(0.75f*sin(theta), 0.1f, 0.75f*cos(theta))) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta + PI/2 + arrow_angle, glm::vec3(0.0f, 1.0f, 0.0f));
+        arrow.modelMat =  glm::translate(glm::vec3(0.75f*sin(theta), 0.1f, 0.75f*cos(theta))) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta + PI/2 + arrowAngle, glm::vec3(0.0f, 1.0f, 0.0f));
     
         if(throwing){
-            for(int i=0; i<start_pos.size(); i++){
-                ball_run[i] += ball_v[arrow_color_index];
+            for(int i=0; i<startPos.size(); i++){
+                ballRun[i] += ballSpeed[arrowColorIndex];
                 phi[i][0] -= 2.0f * PI / 90.0f;
                 
-                ballPos[i] = ball_run[i] * goal_pos[i] + (1-ball_run[i]) * start_pos[i];
+                ballPos[i] = ballRun[i] * goalPos[i] + (1-ballRun[i]) * startPos[i];
                 
                 if(ballPos[i][0]*ballPos[i][0] + ballPos[i][2]*ballPos[i][2] >= 1.0f){
-                    ball_vy[i] += g;
-                    ball_pos_y[i] -= ball_vy[i];
-                    ballPos[i][1] = ball_pos_y[i];
+                    ballSpeedY[i] += g;
+                    ballPosY[i] -= ballSpeedY[i];
+                    ballPos[i][1] = ballPosY[i];
                 }
             }
             if(ballPos[0][1] <= -5.0f){
-                ball_run.erase(ball_run.begin());
-                ball_vy.erase(ball_vy.begin());
-                ball_pos_y.erase(ball_pos_y.begin());
+                ballRun.erase(ballRun.begin());
+                ballSpeedY.erase(ballSpeedY.begin());
+                ballPosY.erase(ballPosY.begin());
                 ballPos.erase(ballPos.begin());
-                start_pos.erase(start_pos.begin());
-                goal_pos.erase(goal_pos.begin());
+                startPos.erase(startPos.begin());
+                goalPos.erase(goalPos.begin());
                 phi.erase(phi.begin());
             }
   
             // 当たり判定
             hit = false;
-            for(int i=0; i<start_pos.size(); i++){
+            for(int i=0; i<startPos.size(); i++){
                 glm::vec3 diff = ballPos[i] - glm::vec3(-0.9*sin(theta), 0.1f, -0.9*cos(theta));
                 if (glm::length(diff) <= 0.08f){
                     hit = true;
@@ -630,18 +629,18 @@ void animate() {
             
         }
         else {
-            bowling_balls[0].modelMat = glm::translate(glm::vec3(0.75*sin(theta) , 0.1f, 0.75*cos(theta))) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f));
+            bowlingBalls[0].modelMat = glm::translate(glm::vec3(0.75*sin(theta) , 0.1f, 0.75*cos(theta))) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta, glm::vec3(0.0f, 1.0f, 0.0f));
         }
     }
 }
 
 
-void init_arrow(int iarrow_color_index){
+void initArrow(int iarrowColorIndex){
     arrow.initialize();
-    arrow.loadOBJ(Arrow_OBJFILE);
+    arrow.loadOBJ(ARROW_OBJFILE);
     arrow.buildShader(RENDER_SHADER);
-    arrow.loadTexture(Arrow_TEXFILES[iarrow_color_index]);
-    arrow.modelMat =  glm::translate(glm::vec3(0.75f*sin(theta), 0.1f, 0.75f*cos(theta))) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta + PI/2 + arrow_angle, glm::vec3(0.0f, 1.0f, 0.0f));
+    arrow.loadTexture(ARROW_TEXFILES[iarrowColorIndex]);
+    arrow.modelMat =  glm::translate(glm::vec3(0.75f*sin(theta), 0.1f, 0.75f*cos(theta))) * glm::scale(glm::vec3(0.04f, 0.04f, 0.04f)) * glm::rotate(theta + PI/2 + arrowAngle, glm::vec3(0.0f, 1.0f, 0.0f));
     
 }
 
@@ -653,35 +652,35 @@ void keyboard(GLFWwindow *window) {
         // left
         state = glfwGetKey(window, GLFW_KEY_LEFT);
         if (state == GLFW_PRESS || state == GLFW_REPEAT) {
-            arrow_angle += arrow_angle_v;
-            arrow_angle = std::min(arrow_angle, +1.5f);
+            arrowAngle += arrowAngleSpeed;
+            arrowAngle = std::min(arrowAngle, +1.5f);
         }
         
         // right
         state = glfwGetKey(window, GLFW_KEY_RIGHT);
         if (state == GLFW_PRESS || state == GLFW_REPEAT) {
-            arrow_angle -= arrow_angle_v;
-            arrow_angle = std::max(arrow_angle, -1.5f);
+            arrowAngle -= arrowAngleSpeed;
+            arrowAngle = std::max(arrowAngle, -1.5f);
         }
         
         // up
         state = glfwGetKey(window, GLFW_KEY_UP);
         if (state == GLFW_PRESS) {
-            arrow_color += 0.2f;
-            arrow_color_index = int(arrow_color);
-            arrow_color_index = std::min(arrow_color_index, 9);
-            arrow_color_index = std::max(arrow_color_index, 0);
-            init_arrow(arrow_color_index);
+            arrowColor += 0.2f;
+            arrowColorIndex = int(arrowColor);
+            arrowColorIndex = std::min(arrowColorIndex, 9);
+            arrowColorIndex = std::max(arrowColorIndex, 0);
+            initArrow(arrowColorIndex);
         }
         
         // down
         state = glfwGetKey(window, GLFW_KEY_DOWN);
         if (state == GLFW_PRESS) {
-            arrow_color -= 0.2f;
-            arrow_color_index = int(arrow_color);
-            arrow_color_index = std::min(arrow_color_index, 9);
-            arrow_color_index = std::max(arrow_color_index, 0);
-            init_arrow(arrow_color_index);
+            arrowColor -= 0.2f;
+            arrowColorIndex = int(arrowColor);
+            arrowColorIndex = std::min(arrowColorIndex, 9);
+            arrowColorIndex = std::max(arrowColorIndex, 0);
+            initArrow(arrowColorIndex);
         }
     }
 }
@@ -697,13 +696,13 @@ void keyboardCallback(GLFWwindow *window, int key, int scanmode, int action, int
         // Enter --- throwing
         if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
             throwing = true;
-            ball_angle = arrow_angle;
-            if (start_pos.size() < 70){
-                start_pos.push_back(glm::vec3(0.75f*sin(theta), 0.15f, 0.75f*cos(theta)));
-                goal_pos.push_back(glm::vec3(0.75f*sin(theta-(PI-2*ball_angle)), 0.15f, 0.75f*cos(theta-(PI-2*ball_angle))));
-                ball_run.push_back(0.0f);
-                ball_vy.push_back(0.0f);
-                ball_pos_y.push_back(0.15f);
+            ballAngle = arrowAngle;
+            if (startPos.size() < 70){
+                startPos.push_back(glm::vec3(0.75f*sin(theta), 0.15f, 0.75f*cos(theta)));
+                goalPos.push_back(glm::vec3(0.75f*sin(theta-(PI-2*ballAngle)), 0.15f, 0.75f*cos(theta-(PI-2*ballAngle))));
+                ballRun.push_back(0.0f);
+                ballSpeedY.push_back(0.0f);
+                ballPosY.push_back(0.15f);
                 ballPos.push_back(glm::vec3(0.75f*sin(theta), 0.15f, 0.75f*cos(theta)));
                 phi.push_back(glm::vec4(0.0f, sin(theta)/2, 0.0f, cos(theta)/2));
             }
@@ -716,7 +715,7 @@ void keyboardCallback(GLFWwindow *window, int key, int scanmode, int action, int
         if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
             if (gameMode == GAME_MODE_START) {
                 gameMode = GAME_MODE_PLAY;
-                arrow_angle = 0.0f;
+                arrowAngle = 0.0f;
             }
         }
     }
