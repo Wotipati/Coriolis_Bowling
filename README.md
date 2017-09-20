@@ -1,4 +1,4 @@
-# Coriolis_Bowling
+# coriolisBowling
 
 You can study Coriolis force !!!!
 
