@@ -57,3 +57,13 @@ You can study Coriolis force !!!!
     cmake ..                                      
     make                                       
     sudo make install                             
+
+
+### Set up GLEW
+
+    wget https://github.com/nigels-com/glew/releases/download/glew-2.0.0/glew-2.0.0.tgz
+    tar xvf glew-2.0.0.tgz
+    cd glew-2.0.0/build
+    cmake ./cmake
+    make
+    sudo make install
