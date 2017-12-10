@@ -33,4 +33,27 @@ You can study Coriolis force !!!!
 <img height="314" align="left" alt="first_person_view" src="https://user-images.githubusercontent.com/26996041/27760712-5f307cd2-5e89-11e7-8f17-9eae299248ef.png">
 <img height="314" align="right" alt="bird_view" src="https://user-images.githubusercontent.com/26996041/27760717-70e6c652-5e89-11e7-9fcd-64953acbd228.png">
 
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
+### Set up GLFW
+
+    git clone https://github.com/glfw/glfw.git    
+    cd glfw                                       
+    mkdir build && cd build                      
+    cmake ..                                      
+    make                                       
+    sudo make install                             
