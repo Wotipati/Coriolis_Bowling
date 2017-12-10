@@ -22,7 +22,7 @@ You can study Coriolis force !!!!
 <br />
 <br />
 
-#### How to play  
+### How to play  
 
     Enter key      : throw ball  
     Space key      : change view (first person view / bird view)  
