@@ -67,3 +67,14 @@ You can study Coriolis force !!!!
     cmake ./cmake
     make
     sudo make install
+
+
+
+### Set up GLM
+
+    git clone https://github.com/g-truc/glm.git
+    cd glm
+    mkdir build && cd build
+    cmake ..
+    make
+    sudo make install
