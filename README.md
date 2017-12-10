@@ -19,12 +19,7 @@ You can study Coriolis force !!!!
 <br />
 <br />
 <br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+
 
 #### How to play  
 
