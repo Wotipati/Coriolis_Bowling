@@ -1,12 +1,32 @@
 cmake_minimum_required(VERSION 3.9)
 project(coriolisBowling)
 
+
+if (WIN32)
+    set(GLEW_ROOT "GLEW_ROOT" CACHE PATH "")
+    set(GLFW3_ROOT "GLFW3_ROOT" CACHE PATH "")
+    set(GLM_ROOT "GLM_ROOT" CACHE PATH "")
+endif()
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
+
 set(TARGET_DIR "${CMAKE_CURRENT_LIST_DIR}")
 
 if (EXISTS "${TARGET_DIR}/common.h.in")
     configure_file("${TARGET_DIR}/common.h.in"
             "${TARGET_DIR}/common.h" @ONLY)
 endif()
+
+# ------------------------------------------------------------------------------
+# Set build options
+# ------------------------------------------------------------------------------
+if (NOT MSVC)
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -std=c++11")
+endif()
+
+
 
 # ------------------------------------------------------------------------------
 # Find OpenGL libraries
@@ -17,17 +37,16 @@ find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
 
 
-
 ## ------------------------------------------------------------------------------
 ## Set output path
 ## ------------------------------------------------------------------------------
-#set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 
 set(CMAKE_CXX_STANDARD 11)

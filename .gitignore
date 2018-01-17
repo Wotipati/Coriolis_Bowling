@@ -2,3 +2,4 @@
 common.h
 cmake-build-debug/*
 .idea/*
+build/*
