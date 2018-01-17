@@ -74,7 +74,7 @@ $ sudo make install
 #### Set up GLM
 ```
 $ git clone https://github.com/g-truc/glm.git
-& cd glm
+$ cd glm
 $ mkdir build && cd build
 $ cmake ..
 $ make
