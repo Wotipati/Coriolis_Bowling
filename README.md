@@ -49,32 +49,43 @@ You can study Coriolis force !!!!
 <br />
 <br />
 
-### Set up GLFW
+### Usage (for macOS)
+#### Set up GLFW
+```
+$ git clone https://github.com/glfw/glfw.git    
+$ cd glfw                                       
+$ mkdir build && cd build                      
+$ cmake ..                                      
+$ make                                       
+$ sudo make install                             
+```
 
-    git clone https://github.com/glfw/glfw.git    
-    cd glfw                                       
-    mkdir build && cd build                      
-    cmake ..                                      
-    make                                       
-    sudo make install                             
+#### Set up GLEW
+```
+$ wget https://github.com/nigels-com/glew/releases/download/glew-2.0.0/glew-2.0.0.tgz
+$ tar xvf glew-2.0.0.tgz
+$ cd glew-2.0.0/build
+$ cmake ./cmake
+$ make
+$ sudo make install
+```
 
 
-### Set up GLEW
-
-    wget https://github.com/nigels-com/glew/releases/download/glew-2.0.0/glew-2.0.0.tgz
-    tar xvf glew-2.0.0.tgz
-    cd glew-2.0.0/build
-    cmake ./cmake
-    make
-    sudo make install
-
-
-
-### Set up GLM
-
-    git clone https://github.com/g-truc/glm.git
-    cd glm
-    mkdir build && cd build
-    cmake ..
-    make
-    sudo make install
+#### Set up GLM
+```
+$ git clone https://github.com/g-truc/glm.git
+& cd glm
+$ mkdir build && cd build
+$ cmake ..
+$ make
+$ sudo make install
+```
+#### Set up coriolisBowling
+```
+$ git clone https://github.com/Wotipati/coriolisBowling.git
+$ cd coriolisBowling
+$ mkdir build && cd build
+$ cmake ..
+$ make
+$ ./coriolisBowling
+```
