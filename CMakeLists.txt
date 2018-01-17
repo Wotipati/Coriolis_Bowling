@@ -51,6 +51,12 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 set(CMAKE_CXX_STANDARD 11)
 
+set(ALL_INCLUDE_DIRS ${OPENGL_INCLUDE_DIRS}
+        ${GLFW3_INCLUDE_DIR}
+        ${GLEW_INCLUDE_DIR}
+        ${GLM_INCLUDE_DIR})
+include_directories(${ALL_INCLUDE_DIRS})
+
 add_executable(coriolisBowling
         common.h
         main.cpp
@@ -58,14 +64,6 @@ add_executable(coriolisBowling
         tiny_obj_loader.h
 )
 
-
-# ------------------------------------------------------------------------------
-# Setup dependencies
-# ------------------------------------------------------------------------------
-set(ALL_INCLUDE_DIRS ${OPENGL_INCLUDE_DIRS}
-        ${GLFW3_INCLUDE_DIR}
-        ${GLEW_INCLUDE_DIR}
-        ${GLM_INCLUDE_DIR})
 
 set(ALL_LIBRARIES ${OPENGL_LIBRARIES} ${GLFW3_LIBRARY} ${GLEW_LIBRARY})
 
@@ -79,4 +77,4 @@ if (APPLE)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework Cocoa -framework IOKit -framework CoreVideo")
 endif()
 
-target_link_libraries(coriolisBowling glew glfw3 ${ALL_LIBRARIES} ${CMAKE_EXE_LINKER_FLAGS} )
+target_link_libraries(coriolisBowling glew glfw3 ${ALL_LIBRARIES} ${CMAKE_EXE_LINKER_FLAGS})
