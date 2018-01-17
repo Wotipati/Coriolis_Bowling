@@ -1,0 +1,4 @@
+.DS_Store
+common.h
+cmake-build-debug/*
+.idea/*
